@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:3013');
+      /*
+       *Quand on reçoit un message, on l'insère dans la page
+       */ 
+      socket.on('message', function(data) {
+      //  console.log("message data : "+ data.PosRobotX);
+        insereMessage(data)
+      })
+      function insereMessage(data) {
+                $('#zone_data').prepend('<p><strong> pos Robot (' + data.PosRobotX + ';'+data.PosRobotY+')</p>');
+                $('#zone_data').prepend('<p><strong> coordonee Obstacle(' + data.xi + ';'+data.yi+')</p>');
+            }
+    </script>
+  </head>
+  <body>
+      <p> Here ?</p>
+    <section id="zone_data">
+            
+    </section>
+  </body>
+</html>

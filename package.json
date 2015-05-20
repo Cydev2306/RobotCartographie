@@ -1,0 +1,11 @@
+{
+	"name" : "2ServerWS",
+	"version": "0.1.0",
+	"dependencies":{
+		"socket.io":"1.3.5",
+		"socket.io-client":"1.3.5",
+		"mongodb":"2.0.33"
+	},
+	"author":"Jerem & cy",
+	"description": "Robot permettant de cartographier l'environnement dans lequel il se trouve"
+}
