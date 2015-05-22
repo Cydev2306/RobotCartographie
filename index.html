@@ -23,7 +23,24 @@
     function Stop(){
       if(socket){
              socket.disconnect(); 
-           console.log("bien deconnecte");
+           console.log("<div class="modal fade">
+            <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Deconexion de Slam Robot</h4>
+              </div>
+              <div class="modal-body">
+                <p>Slam Robot est bien déconnecté</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->");
+           
       }
     }
       /*
@@ -61,6 +78,8 @@
         <p>
             <input type="button"  value="Stop"  class="btn btn-danger" onclick="Stop()"  /> 
             <input type="button" value="Start" class="btn btn-success" onclick="Start()" />
+            
+            
         </p>
         </center>
       <table id="dataTable" class="table table-striped">
