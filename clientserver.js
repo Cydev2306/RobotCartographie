@@ -1,18 +1,21 @@
 var clientio  = require('socket.io-client');
-var client    = clientio.connect('http://localhost:3013');
+var client    = clientio.connect('http://10.251.98.169:3013');
 client.on('identifiant',function(data){
-	console.log('Vous avez cet identifiant : '+ data);
+        console.log('Vous avez cet identifiant : '+ data);
 });
 client.emit('client', 'galileo');
-	setInterval(function() {
+function Envoi() {
+         a =Math.floor(Math.random()*11) ,z=Math.floor(Math.random()*11), xi=Math.floor(Math.random()*11), yi =Math.floor(Math.random()*11);
         var emit = {
-            "PosRobotX": "0",
-            "PosRobotY": "0",
-            "xi": "200",
-            "yi": "15"
+            "PosRobotX": z,
+            "PosRobotY": a,
+            "xi": xi,
+            "yi": yi
         }
-    client.emit('myevent', emit);
-    console.log('galileo data send');
-    }, 10000);
-
+        client.emit('myevent', emit);
+        console.log('galileo data send');
+    }
+    setInterval(function(){
+            Envoi();
+    } , 8000);
 

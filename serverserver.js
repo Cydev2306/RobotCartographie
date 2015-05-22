@@ -1,7 +1,7 @@
 var app = require('express')()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server);
-server.listen(3013);
+server.listen(3013,'10.251.98.169');
 var clients = [];
 var client_id=0;
 var i= 0;
@@ -9,7 +9,9 @@ var i= 0;
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
-
+app.get('/Slam_robot.png', function (req, res) {
+  res.sendFile(__dirname + '/Slam_robot.png');
+});
 io.sockets.on('connection', function (socket) {
 	socket.client_id = client_id;
 	clients[client_id] = socket;

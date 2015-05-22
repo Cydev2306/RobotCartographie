@@ -1,27 +1,250 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <title>Robot Traceur</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
-      var socket = io.connect('http://localhost:3013');
+          var socket = io.connect('http://10.251.98.169:3013');
+    function Start(){
+        socket.on('message', function(data) {
+        insereMessage(data)
+      });
+    }
+
+    function Stop(){
+      if(socket){
+             socket.disconnect(); 
+           console.log("bien deconnecte");
+      }
+    }
       /*
        *Quand on reçoit un message, on l'insère dans la page
        */ 
-      socket.on('message', function(data) {
-      //  console.log("message data : "+ data.PosRobotX);
-        insereMessage(data)
-      })
+      var id = 0;
       function insereMessage(data) {
-                $('#zone_data').prepend('<p><strong> pos Robot (' + data.PosRobotX + ';'+data.PosRobotY+')</p>');
-                $('#zone_data').prepend('<p><strong> coordonee Obstacle(' + data.xi + ';'+data.yi+')</p>');
-            }
+        var table = document.getElementById("dataTable");
+        var row  = table.insertRow(table.rows.length);
+        var cell1 = row.insertCell(0); 
+        cell1.innerHTML = id;
+        id++;
+        var cell2 = row.insertCell(1);
+        cell2.innerHTML = "( "+data.PosRobotX+" ; "+data.PosRobotY+" )"; 
+        var cell3 = row.insertCell(2);
+        cell3.innerHTML = "( "+data.xi+" ; "+data.yi+" )"; 
+      }
     </script>
   </head>
   <body>
-      <p> Here ?</p>
-    <section id="zone_data">
+    <nav>
+  <!--<ul  >
+      <li class="text-left" class="active"> <span><i class="icon-home"></i>Home</span></li>
+      <li class="text-center">      <a href="team.html"><i class="icon-user"></i>Team</a></li>
+      <li class="text-right">     <a href="project.html"><i class="icon-briefcase"></i>Project</a></li>
+  </ul>-->
+
+    </nav>
+    <center>
+          <img src="./Slam_robot.png" height="200" width="200"alt="Slam Robot" class="img-circle">
+        <h1  class="muted" >Slam Robot</h1>
+        <canvas id="canvas">
             
+        </canvas>   
+        <p>
+            <input type="button"  value="Stop"  class="btn btn-danger" onclick="Stop()"  /> 
+            <input type="button" value="Start" class="btn btn-success" onclick="Start()" />
+        </p>
+        </center>
+      <table id="dataTable" class="table table-striped">
+        <tr>
+          <th>Points</th>
+          <th>Coordonnée du Robot (x;y)</th>
+          <th>Distance Robot-Obstacle (x;y)</th>
+        </tr>
+      </table>
     </section>
+    
+    <script>/*
+  var c = document.getElementById("canvas");
+  var ctx = c.getContext("2d");
+  
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+  
+  function drawPath() { 
+  //Circuit
+  x1=50;  //x1
+  y1=50;  //y1
+  x2=250; //x2
+  y2=120; //y2
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y1);
+  ctx.lineTo(x2,y2);
+  ctx.lineTo(x1,y2);
+  ctx.lineTo(x1,y1);
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = "silver";
+  ctx.stroke();
+  }
+  function drawPointsDarret(){
+  //checkpoint
+  ctx.beginPath();
+  ctx.strokeStyle = "red";
+  
+  ctx.arc(110,50,1,1,Math.PI*2,true);
+  ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.arc(160,50,1,1,Math.PI*2,true); 
+  ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.arc(210,50,1,1,Math.PI*2,true); 
+  ctx.stroke();
+  }
+  /*var image = new Image(); 
+  image.src = '/img/car.png';
+  
+  image.onload = function() {
+  // Cette fonction est appelée lorsque l'image a été chargée
+  ctx.drawImage(this,20,20); // this fait référence à l'objet courant (=image)
+  };*/
+  
+  //Time
+  /*var text = 'Go!';
+  ctx.font = "20pt Verdana";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  var textPxLength = ctx.measureText(text);
+  ctx.fillStyle = "blue";
+  ctx.fillText(text,100,80);
+  
+  function affichepts(x,y){   //position abscisse/ordonnée du robot
+      for(i=0;i<=5;i++) {
+      signe=Math.round(Math.random()) * 2 - 1;
+      r=Math.random()*5;      // décalage   
+      py=y-25+(signe*r);      //position du point capté
+      r=Math.random()*15;
+      px=x+r;
+      ctx.fillRect(px,py,2,2);  //position,taille
+      
+      }
+  }
+  
+   
+  affichepts(50,50);
+  affichepts(100,50);
+  affichepts(150,50);
+  affichepts(200,50);
+  
+  window.requestAnimFrame = (function(callback) {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+        function(callback) {
+          window.setTimeout(callback, 1000 / 60);
+        };
+      })();
+  
+  
+  // Robot  
+  var myRobot = {
+        x: 45,
+        y: 45,
+        width: 15,
+        height: 15,
+        borderWidth: 0.5
+  };
+  
+      function drawRobot(myRobot, ctx) {
+        ctx.beginPath();
+        ctx.rect(myRobot.x, myRobot.y, myRobot.width, myRobot.height);
+        ctx.fillStyle = '#8ED6FF';
+        ctx.fill();
+        ctx.lineWidth = myRobot.borderWidth;
+        ctx.strokeStyle = 'silver';
+        ctx.stroke();
+      }
+      function animate(myRobot, canvas, ctx, startTime) {
+        // update
+        var time = (new Date()).getTime() - startTime;
+
+        var linearSpeed = 0.5;
+        // pixels / second
+        if(myRobot.x <245 && myRobot.y == 45) {
+          if(myRobot.x ==110 && myRobot.y ==45) {
+              setInterval(function(){
+                console.log("Collecte de donnees veullez patienter ...");
+                myRobot.x +=linearSpeed;
+              }, 600);
+              console.log("ça a marché")
+          }else  myRobot.x +=linearSpeed;
+        }else if(myRobot.x ==245 && myRobot.y <115) {
+            myRobot.y +=linearSpeed;
+        }else if(myRobot.x >45 && myRobot.y ==115) {
+          myRobot.x -=linearSpeed;
+        }else if(myRobot.x ==45 && myRobot.y >=45) {
+          myRobot.y -=linearSpeed;
+        }else if(myRobot.x ==45 && myRobot.y >=45) {
+          myRobot.y -=linearSpeed;
+        }
+        /*else if(myRobot.x==250 && myRobot.y<=50) {
+          myRobot.y +=10;
+        }
+
+        // clear
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawPointsDarret();
+        drawRobot(myRobot, ctx);
+        drawPath();
+        drawPointsDarret();
+        // request new frame
+        requestAnimFrame(function() {
+          animate(myRobot, canvas, ctx, startTime);
+        });
+      }
+
+      
+  
+  /*
+       * define the runAnimation boolean as an obect
+       * so that it can be modified by reference
+       
+      var runAnimation = {
+        value: false
+      };
+
+      // add click listener to canvas
+      document.getElementById('canvas').addEventListener('click', function() {
+        // flip flag
+        runAnimation.value = !runAnimation.value;
+
+        if(runAnimation.value) {
+          var date = new Date();
+          var time = date.getTime();
+          animate(time, myRobot, runAnimation, canvas, ctx);
+        }
+      });
+      
+      
+  drawRobot(myRobot, ctx);
+  drawPath();
+  drawPointsDarret();
+
+      // wait one second before starting animation
+      setTimeout(function() {
+        var startTime = (new Date()).getTime();
+        animate(myRobot, canvas, ctx, startTime);
+      }, 1000);
+   */   
+    </script>
   </body>
 </html>
