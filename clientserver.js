@@ -17,5 +17,5 @@ function Envoi() {
     }
     setInterval(function(){
             Envoi();
-    } , 8000);
+    } , 2000);
 

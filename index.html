@@ -14,39 +14,43 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
           var socket = io.connect('http://10.251.98.169:3013');
+                 function startCanvas() {
+        var startTime = (new Date()).getTime();
+        animate(myRobot, canvas, ctx, startTime);
+      };
     function Start(){
         socket.on('message', function(data) {
         insereMessage(data)
       });
+        insereLog('connecté'); 
+        startCanvas();
     }
 
+    function insereLog(data) {
+        var local = document.getElementById("statut");
+        local.innerHTML=data;
+      }
     function Stop(){
       if(socket){
              socket.disconnect(); 
-           console.log("<div class="modal fade">
-            <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Deconexion de Slam Robot</h4>
-              </div>
-              <div class="modal-body">
-                <p>Slam Robot est bien déconnecté</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->");
+           insereLog('deconnecté');
+      };
+       var myRobot = {
+        x: 45,
+        y: 45,
+        width: 15,
+        height: 15,
+        borderWidth: 0.5
+      }
+      drawRobot();
+      drawPath();
            
       }
-    }
+
       /*
        *Quand on reçoit un message, on l'insère dans la page
        */ 
-      var id = 0;
+      var id = 1;
       function insereMessage(data) {
         var table = document.getElementById("dataTable");
         var row  = table.insertRow(table.rows.length);
@@ -70,28 +74,32 @@
 
     </nav>
     <center>
-          <img src="./Slam_robot.png" height="200" width="200"alt="Slam Robot" class="img-circle">
-        <h1  class="muted" >Slam Robot</h1>
-        <canvas id="canvas">
-            
-        </canvas>   
+        <h1 >Slam Robot</h1>   
         <p>
+
+          <img src="./Slam_robot.png" height="200" width="200"alt="Slam Robot" class="img-circle"></p>
+          <br/>
             <input type="button"  value="Stop"  class="btn btn-danger" onclick="Stop()"  /> 
-            <input type="button" value="Start" class="btn btn-success" onclick="Start()" />
-            
-            
+            <input type="button" value="Start" class="btn btn-success" onclick="Start()" /> 
+            <div id="statut">
+
+            </div>
         </p>
-        </center>
+          <br/>
+      <!--  <canvas id="canvas" height="300%">
+            
+        </canvas>  -->
+      </center>
       <table id="dataTable" class="table table-striped">
         <tr>
           <th>Points</th>
           <th>Coordonnée du Robot (x;y)</th>
-          <th>Distance Robot-Obstacle (x;y)</th>
+          <th>Coordonée de l'obstacle (x;y)</th>
         </tr>
       </table>
     </section>
     
-    <script>/*
+    <script>
   var c = document.getElementById("canvas");
   var ctx = c.getContext("2d");
   
@@ -129,6 +137,9 @@
   ctx.beginPath();
   ctx.arc(210,50,1,1,Math.PI*2,true); 
   ctx.stroke();
+    ctx.beginPath();
+  ctx.arc(250,75,1,1,Math.PI*2,true); 
+  ctx.stroke();
   }
   /*var image = new Image(); 
   image.src = '/img/car.png';
@@ -146,9 +157,9 @@
   var textPxLength = ctx.measureText(text);
   ctx.fillStyle = "blue";
   ctx.fillText(text,100,80);
-  
+  */
   function affichepts(x,y){   //position abscisse/ordonnée du robot
-      for(i=0;i<=5;i++) {
+     /* for(i=0;i<=5;i++) {
       signe=Math.round(Math.random()) * 2 - 1;
       r=Math.random()*5;      // décalage   
       py=y-25+(signe*r);      //position du point capté
@@ -156,7 +167,7 @@
       px=x+r;
       ctx.fillRect(px,py,2,2);  //position,taille
       
-      }
+      }*/
   }
   
    
@@ -198,13 +209,15 @@
         var linearSpeed = 0.5;
         // pixels / second
         if(myRobot.x <245 && myRobot.y == 45) {
-          if(myRobot.x ==110 && myRobot.y ==45) {
-              setInterval(function(){
-                console.log("Collecte de donnees veullez patienter ...");
-                myRobot.x +=linearSpeed;
-              }, 600);
+        /*  if(myRobot.x ==110 && myRobot.y ==45) {
+              console.log("Collecte de donnees veullez patienter ...");
+              function essai(){
+                myRobot.x
+              } 
+               setInterval(essai(), 8000);
+
               console.log("ça a marché")
-          }else  myRobot.x +=linearSpeed;
+          }else*/  myRobot.x +=linearSpeed;
         }else if(myRobot.x ==245 && myRobot.y <115) {
             myRobot.y +=linearSpeed;
         }else if(myRobot.x >45 && myRobot.y ==115) {
@@ -216,7 +229,7 @@
         }
         /*else if(myRobot.x==250 && myRobot.y<=50) {
           myRobot.y +=10;
-        }
+        }*/
 
         // clear
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -245,13 +258,13 @@
       document.getElementById('canvas').addEventListener('click', function() {
         // flip flag
         runAnimation.value = !runAnimation.value;
-
         if(runAnimation.value) {
           var date = new Date();
           var time = date.getTime();
           animate(time, myRobot, runAnimation, canvas, ctx);
         }
       });
+  */
       
       
   drawRobot(myRobot, ctx);
@@ -259,11 +272,10 @@
   drawPointsDarret();
 
       // wait one second before starting animation
-      setTimeout(function() {
+  /*    setTimeout(function() {
         var startTime = (new Date()).getTime();
         animate(myRobot, canvas, ctx, startTime);
-      }, 1000);
-   */   
+      }, 1000); */
     </script>
   </body>
 </html>
