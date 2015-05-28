@@ -1,5 +1,5 @@
 var clientio  = require('socket.io-client');
-var client    = clientio.connect('http://10.251.98.169:3013');
+var client    = clientio.connect('http://localhost:3013');
 client.on('identifiant',function(data){
         console.log('Vous avez cet identifiant : '+ data);
 });
@@ -9,8 +9,8 @@ function Envoi() {
         var emit = {
             "PosRobotX": z,
             "PosRobotY": a,
-            "xi": xi,
-            "yi": yi
+            "Xi": xi,
+            "Yi": yi
         }
         client.emit('myevent', emit);
         console.log('galileo data send');

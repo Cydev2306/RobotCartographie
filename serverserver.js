@@ -1,10 +1,28 @@
 var app = require('express')()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server);
-server.listen(3013,'10.251.98.169');
+server.listen(3013,'localhost');
 var clients = [];
 var client_id=0;
 var i= 0;
+var pg = require('pg');
+
+function InsertDB(ConnString, req){
+var client = new pg.Client(ConnString);
+client.connect(function(err) {
+  if(err) {
+    return console.error('could not connect to postgres', err);
+  }
+  client.query(req, function(err, result) {
+    if(err) {
+      return console.error('error running query', err);
+    }
+    console.log("requete executee");
+    client.end();
+  });
+});
+}
+
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -32,6 +50,11 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('myevent', function (data) {
    	console.log('server data', data);
+    /*
+    * Ajout des points dans la base de donnees -> appel à la fonction 
+    */
+    var requete = 'Insert into public."Nuage"("PosX","PosY","Xi","Yi") Values('+data.PosRobotX+','+data.PosRobotY+','+data.Xi+','+data.Yi+');';
+    InsertDB("postgres://Galileo:galileo@localhost:5433/Nuage", requete);
     socket.broadcast.emit('message', data);  
 	});
 	socket.on('disconnect', function(){
