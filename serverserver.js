@@ -7,6 +7,10 @@ var client_id=0;
 var i= 0;
 var pg = require('pg');
 
+
+/*
+* Fonction pour les requetes Insert Into
+*/
 function InsertDB(ConnString, req){
 var client = new pg.Client(ConnString);
 client.connect(function(err) {
