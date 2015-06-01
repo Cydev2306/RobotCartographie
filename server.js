@@ -34,6 +34,8 @@ app.get('/', function (req, res) {
 app.get('/Slam_robot.png', function (req, res) {
   res.sendFile(__dirname + '/Slam_robot.png');
 });
+
+
 io.sockets.on('connection', function (socket) {
 	socket.client_id = client_id;
 	clients[client_id] = socket;
@@ -45,11 +47,11 @@ io.sockets.on('connection', function (socket) {
 				console.log('la galileo est connectee');
         this.emit("identifiant",socket.id);
 				client_id++;
-			}
+			}else client_id++;
 		});
 
 	/*
-	* Envoie un message toute les 4 secondes a tous les clients connectes 
+	* Envoie un message a tous les clients connectes 
 	*/
 
   socket.on('myevent', function (data) {
@@ -61,22 +63,13 @@ io.sockets.on('connection', function (socket) {
     InsertDB("postgres://Galileo:galileo@localhost:5433/Nuage", requete);
     socket.broadcast.emit('message', data);  
 	});
+
+  /*
+  * Script qui log la deconnection d'un client.
+  */
 	socket.on('disconnect', function(){
     	console.log('client '+socket.id+' est deconnecte');
     	delete clients[this.client_id];
   });
 
 });
-
-/*
-*	Fonction pour créer un unique ID de chaque client WS. --Useless
-*/
-function generateUUID() {
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random()*16)%16 | 0;
-        d = Math.floor(d/16);
-        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-    });
-    return uuid;
-};

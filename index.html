@@ -13,38 +13,24 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
-          var socket = io.connect('http://localhost:3013');
-                 function startCanvas() {
-        var startTime = (new Date()).getTime();
-        animate(myRobot, canvas, ctx, startTime);
-      };
-    function Start(){
+      var socket = io.connect('http://localhost:3013');
+      function Start(){
         socket.on('message', function(data) {
-        insereMessage(data)
-      });
+          insereMessage(data)
+        });
         insereLog('connecté'); 
         startCanvas();
-    }
+      }
 
-    function insereLog(data) {
+      function insereLog(data) {
         var local = document.getElementById("statut");
         local.innerHTML=data;
       }
-    function Stop(){
-      if(socket){
-             socket.disconnect(); 
-           insereLog('deconnecté');
-      };
-       var myRobot = {
-        x: 45,
-        y: 45,
-        width: 15,
-        height: 15,
-        borderWidth: 0.5
-      }
-      drawRobot();
-      drawPath();
-           
+      function Stop(){
+        if(socket){
+          socket.disconnect(); 
+         insereLog('deconnecté');
+        };       
       }
 
       /*
@@ -60,7 +46,8 @@
         var cell2 = row.insertCell(1);
         cell2.innerHTML = "( "+data.PosRobotX+" ; "+data.PosRobotY+" )"; 
         var cell3 = row.insertCell(2);
-        cell3.innerHTML = "( "+data.xi+" ; "+data.yi+" )"; 
+        cell3.innerHTML = "( "+data.Xi+" ; "+data.Yi+" )"; 
+        var toto = 15;
       }
     </script>
   </head>
