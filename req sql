@@ -1,3 +1,0 @@
-Insert into   public."Nuage"("PosX","PosY","Xi","Yi") Values(2,4,6,10);
-
-SELECT count(id) FROM public."Nuage";
