@@ -1,6 +1,6 @@
-// CANVAS ANIMATION DU ROBOT SUR LE CIRCUIT EN TEMPS REEL
 var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
+var ctx = c.getContext("2d");
+    
     
     // Robot  
     var myRobot = {
@@ -109,9 +109,9 @@ var c = document.getElementById("canvas");
     ctx.beginPath();
     ctx.arc(50,85,1,1,Math.PI*2,true); 
     ctx.stroke();
-    */
     
-    }
+    
+    */}
     
     //var image = new Image(); 
     //image.src = '/img/car.png';
@@ -131,18 +131,21 @@ var c = document.getElementById("canvas");
     ctx.fillStyle = "blue";
     ctx.fillText(text,100,80);
     */
+    
     function drawPoint(x,y){//x et y de la bdd
-      ctx.scale(0,0);
+      
+      
       ctx.beginPath();
       ctx.strokeStyle = "green";
-      ctx.arc(x,y,1,1,Math.PI*2,true);
+      ctx.arc(x,y,1,1,Math.PI*1,true);
       ctx.stroke();
 
     }
 
-    function drawCloud(x,y){// xscale/yscale,position abscisse/ordonnée du robot
+
+    function drawCloud(tabt,tabP){// xscale/yscale,position abscisse/ordonnée du robot
         
-       for(i=0;i<=5;i++) {
+       /*for(i=0;i<=5;i++) {
         signe=Math.round(Math.random()) * 2 - 1;
         r=Math.random()*5;      // décalage   
         py=y-25+(signe*r);      //position du point capté
@@ -150,44 +153,53 @@ var c = document.getElementById("canvas");
         px=x+r;
         ctx.fillRect(px,py,2,2);  //position,taille
         
-        }
+        }*/
+
         //Affiche le nuage à partir des coordonnées récupérés de la bdd pour une position donnée
-        nuage=[length];
-        for(i=0;i<=nuage;i++){
-          drawPoint(x[i],y[i]);
+        
+        ctx.save();
+        ctx.translate ( 125 ,  30 ); 
+        
+
+        for(i=0;i<=tabt.length;i++){
+          drawPoint(tabt[i],tabP[i]);
         }
 
+        ctx.restore();
+      
     }
 
     
-    function drawLine()
+    function drawLine(x,y)
   {
-      
+      ctx.save();
+      ctx.translate ( 125 ,  30 );
       ctx.beginPath();
-      for(i=0;i<=5;i++){
+      
+      for(i=0;i<=tabt.length;i++){
 
-          ctx.moveTo(x[i],y[i]);   
-          ctx.lineTo(x[i+1],y[i+1]);
+          ctx.moveTo(x[i],y[i]);   // x et y du premier point
+          ctx.lineTo(x[i+1],y[i+1]);// x et y du deuxième point
           ctx.stroke();
         }
+        ctx.restore();
+        
   }
-      
-      
-      
-      
   
 
+  //drawLine(140,90);
+      
     window.requestAnimFrame = (function(callback) {
           return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
           function(callback) {
             window.setTimeout(callback, 1000 / 60);
           };
         })();
-    /*
+    
     drawCloud(150,100);
     drawCloud(200,100);
     drawCloud(250,100);
-    */
+    
         
     function animate(myRobot, canvas, ctx, startTime) {
           // update
@@ -205,18 +217,36 @@ var c = document.getElementById("canvas");
               //|| 
               //myRobot.x==240
               && myRobot.y ==y1) {
+                
+                //var cx     = x1 + 1 * myRobot.width;   // x du centre de la figure
+                //var cy     = y1 + 1* myRobot.height;  // y du centre de la figure
+                
+                //tabt=[0,10,20,30,40,50,60];
+                //tabP=[7,12,13,14,10,21,12];
+                drawCloud(tabt,tabP);
+                drawLine(tabt,tabP);
+
+                /*var cx     = 140 + 0.5* myRobot.width;   // x du centre de la figure 
+                var cy     = 90 + 0.5* myRobot.height;  // y du centre de la figure
+                //ctx.fillRect(x1, y1, myRobot.width, myRobot.height);  //draw normal shape
+                ctx.translate(200, 100);              //translation du centre de la figure par rapport à l'origine
+                
+                //ctx.rotate( (Math.PI / 180) * 25);  //rotation de 25 degres
+                ctx.clearRect(0,0,400,400);
+                ctx.translate(-cx, -cy);            //translation du centre retour au 0,0
+                ctx.fillRect(x1, y1, myRobot.width, myRobot.height);    
+                */
                 //Stoppe le robot, affiche le nuage, puis redemarre
                 //console.log("Collecte de donnees veullez patienter ...");
-                drawCloud(140,90);
-                
+                //drawCloud(140,90);
+
                 //ctx.beginPath;
                 
-                //console.log("ça a marché");
-
                 //ctx.rotate((Math.PI / 180) * 25);
-
-                ctx.clearRect(0,0,400,400);
-                drawRobotic(151,90,20,20);
+                
+                
+                //drawRobotic(151,90,20,20);
+                
                 animate(myRobot, canvas, ctx, startTime);
                      
                }else
