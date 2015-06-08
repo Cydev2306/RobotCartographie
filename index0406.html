@@ -1,153 +1,356 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Slam Robot !</title>
+
+var c = document.getElementById("canvas");
+var ctx = c.getContext("2d");
     
-    <style>
-	canvas{
-	border:dotted;
-  width: 60%;
-	}
-  table{
-    width: 60%;
-
-  }
-  #un{
-    position: absolute;
-    left: 0px; 
-    width: 50%;
-    /*border: solid red 1px;*/
-
-  }
-  #deux{
-    position: absolute;
-    right: 0px;
-    width: 50%;
-    /*border: solid red 1px;*/
-  }
-    </style>
     
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="animation.css">-->
-
-    <!-- Bootstrap js -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    // Robot  
+    var myRobot = {
+        x: 90,
+        y: 90,
+        width: 20,
+        height: 20,
+        borderWidth: 0.5
+    }; 
     
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
+    function drawRobot(myRobot, ctx) {
+          
+          ctx.beginPath();
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="./Slam_robot.png" />
+          ctx.rect(myRobot.x, myRobot.y, myRobot.width, myRobot.height);
 
-    <!--WebSocket-->
-    <script src="/socket.io/socket.io.js"></script>
-    
-    <script>
-    var socket = io.connect('http://10.251.98.169:3013');
-    //Quand on reçoit un message, on l'insère dans la page
-    var id = 1;
-    function insereMessage(data) {
-        var table = document.getElementById("dataTable");
-        var row  = table.insertRow(table.rows.length);
-        var cell1 = row.insertCell(0); 
-        cell1.innerHTML = id;
-        id++;
-        var cell2 = row.insertCell(1);
-        cell2.innerHTML = "( "+data.PosRobotX+" ; "+data.PosRobotY+" )"; 
-        var cell3 = row.insertCell(2);
-        cell3.innerHTML = "( "+data.xi+" ; "+data.yi+" )"; 
-      }
-    function insereLog(data) {
-        var local = document.getElementById("statut");
-        local.innerHTML=data;
-    }
-    function startCanvas() {
-        var startTime = (new Date()).getTime();
-        animate(myRobot, canvas, ctx, startTime);
-      };
+          ctx.fillStyle = '#8ED6FF';
+          
+          ctx.fill();
 
-    function Start(){
-        socket.on('message', function(data) {
-        insereMessage(data)
-        });
-        insereLog('connecté'); 
-        startCanvas();
-    }
-    
-    function Stop(){
-      if(socket){
-             socket.disconnect(); 
-           insereLog('deconnecté');
-      }; 
-      } 
-
-    function Conversion(distance,angle){
-      x=distance*Math.cos(angle);
-      y=distance*Math.sin(angle);
-      //console.log(x);
-      //console.log(y);
+          ctx.lineWidth = myRobot.borderWidth;
+          ctx.strokeStyle = 'silver';
+          ctx.stroke();
     }
 
-    Conversion(1,90);
-    Conversion(2,60);
+    /*function drawRobotic(x,y,w,h) {
+          
+          ctx.beginPath();
+
+          ctx.rect(x,y,w,h);
+
+          ctx.fillStyle = '#8ED6FF';
+          
+          ctx.fill();
+
+          ctx.lineWidth = myRobot.borderWidth;
+          ctx.strokeStyle = 'silver';
+          ctx.stroke();
+    }*/
+
+    function drawPath() { 
+    //Angles arrondis
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    //Circuit
+    a=100;  A=100;  
+    b=300;  B=100;
+    c=338;  C=125;
+    d=358;  D=160;
+    e=358;  E=360;
+    f=338;  F=395;
+    g=300;  G=420;
+    h=100;  H=420;
+    i=62;   I=395;
+    j=42;   J=360;
+    k=42;   K=160;
+    l=62;   L=125; 
+    
+    ctx.beginPath();
+    ctx.moveTo(a,A);
+    ctx.lineTo(b,B);
+    ctx.lineTo(c,C);
+    ctx.lineTo(d,D);
+    ctx.lineTo(e,E);
+    ctx.lineTo(f,F);
+    ctx.lineTo(g,G);
+    ctx.lineTo(h,H);
+    ctx.lineTo(i,I);
+    ctx.lineTo(j,J);
+    ctx.lineTo(k,K);
+    ctx.lineTo(l,L);
+    ctx.lineTo(a,A);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "silver";
+    
+    ctx.stroke();
+    }
+    
+    function drawCheckpoint(){
+    
+    //TOP
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.arc(150,100,1,1,Math.PI*2,true);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(200,100,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(250,100,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    
+    //RIGHT
+    ctx.beginPath();
+    ctx.arc(358,210,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(358,260,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(358,310,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    
+    //BOTTOM
+    ctx.beginPath();
+    ctx.arc(150,420,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(200,420,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(250,420,1,1,Math.PI*2,true); 
+    ctx.stroke();
+
+    //LEFT
+    ctx.beginPath();
+    ctx.arc(42,210,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(42,260,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(42,310,1,1,Math.PI*2,true); 
+    ctx.stroke();
+    
+    }
+    
+    //var image = new Image(); 
+    //image.src = '/img/car.png';
+    
+    /*
+    image.onload = function() {
+    // Cette fonction est appelée lorsque l'image a été chargée
+    ctx.drawImage(this,20,20); // this fait référence à l'objet courant (=image)
+    };*/
+    
+    //Time
+    /*var text = 'Go!';
+    ctx.font = "20pt Verdana";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    var textPxLength = ctx.measureText(text);
+    ctx.fillStyle = "blue";
+    ctx.fillText(text,100,80);
+    */
+    
+    function drawPoint(x,y){//x et y de la bdd
+      
+      
+      ctx.beginPath();
+      ctx.strokeStyle = "green";
+      ctx.arc(x,y,1,1,Math.PI*1,true);
+
+      ctx.stroke();
+
+    }
+
+
+    function drawCloud(tabt,tabP){// xscale/yscale,position abscisse/ordonnée du robot
+        //Simulation de points aléatoires
+       /*for(i=0;i<=5;i++) {
+        signe=Math.round(Math.random()) * 2 - 1;
+        r=Math.random()*5;      // décalage   
+        py=y-25+(signe*r);      //position du point capté
+        r=Math.random()*15;
+        px=x+r;
+        ctx.fillRect(px,py,2,2);  //position,taille
+        
+        }*/
+
+        //Affiche le nuage à partir des coordonnées récupérés de la bdd pour une position donnée
+        ctx.save();
+        ctx.translate ( 125 ,  30 ); 
+        for(i=0;i<=tabt.length;i++){
+          drawPoint(tabt[i],tabP[i]);
+        }
+        ctx.restore();
+    }
+
+    
+    function drawLine(x,y)
+  {
+      ctx.save();
+      ctx.translate ( 125 ,  30 );
+      ctx.beginPath();
+      
+      for(i=0;i<=tabt.length;i++){
+
+          ctx.moveTo(x[i],y[i]);   // x et y du premier point
+          ctx.lineTo(x[i+1],y[i+1]);// x et y du deuxième point
+          ctx.stroke();
+        }
+        ctx.restore();
+        
+  }
+  
 
       
-    </script>
-  </head>
-  <body>
-    <nav>
-  <!--<ul  >
-      <li class="text-left" class="active"> <span><i class="icon-home"></i>Home</span></li>
-      <li class="text-center">      <a href="team.html"><i class="icon-user"></i>Team</a></li>
-      <li class="text-right">     <a href="project.html"><i class="icon-briefcase"></i>Project</a></li>
-  </ul>-->
+    window.requestAnimFrame = (function(callback) {
+          return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+          function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+          };
+        })();
+    
+    //drawCloud(150,100);
+    //drawCloud(200,100);
+    //drawCloud(250,100);
 
-    </nav>
-    <center>
-      <div id="plan" width="400" height="300">
-        <div id="circuit"></div>
-        <div id="robot"></div>
-        <div id="p1"></div><div id="p2"></div>
-        <div id="cp1"></div><div id="cp2"></div><div id="cp3"></div><div id="cp4"></div><div id="cp5"></div><div id="cp6"></div>
-      </div>
-        <h1 >Slam Robot</h1>   
-        <p>
-          <img src="./Slam_robot.png" height="200" width="200"alt="Slam Robot" class="img-circle"></p>
-          <br/>
-    <article id="un">
-            <input type="button"  value="Stop"  class="btn btn-danger" onclick="Stop()"  />&nbsp;&nbsp; 
-            <input type="button" value="Start" class="btn btn-success" onclick="Start()" />
-            <div id="statut">
+    function collect(x,y){ //origine de la rotation
+        
+        
+        ctx.save();
+        
 
-            </div>
-        </p>
-          <br/>
-      <canvas id="canvas" width="400" height="300">
-	    <script src="canvas.js"        type="text/javascript"></script> 
-      <script src="interpolation.js" type="text/javascript"></script>
-      </canvas>
-      </center>
-    </article>
 
-    <aticle id="deux">
-      <center>
-      <table id="dataTable" class="table table-striped">
-        <tr>
-          <th>Points</th>
-          <th>Coordonnée du Robot (x;y)</th>
-          <th>Coordonée de l'obstacle (x;y)</th>
-        </tr>
-      </table>
-    </center>
-    </article>
-    </section>
-    <!-- BDD-->
-    <script src="../ClientBD.js"></script>
-    <script src="AllBD.js" type="text/javascript"></script>
+
+        //changer d'échelle
+        ctx.translate (x,y);
+        //Rotation
+
+        ctx.beginPath();
+        for(i=0;i<=5;i++){
+          var cx     = 140 + 0.5* myRobot.width;// x du centre de la figure
+          var cy     = 90 + 0.5* myRobot.height;  // y du centre de la figure
+
+          ctx.rotate((Math.PI / 180) * 25);     
+          //ctx.fillRect(0, 0, myRobot.width, myRobot.height);  //draw normal shape
+          
+          ctx.translate(-cx, -cy);            //translation du centre retour au 0,0
+          ctx.fillRect(x1, y1, myRobot.width, myRobot.height); 
+          ctx.stroke();
+
+
+          //ctx.fillRect(x1, y1, myRobot.width, myRobot.height);  //draw normal shape
+                //ctx.translate(200, 100);              //translation du centre de la figure par rapport à l'origine
+                
+                //ctx.rotate( (Math.PI / 180) * 25);  //rotation de 25 degres
+                //ctx.clearRect(0,0,400,400);
+          console.log("Collecte de donnees veullez patienter ...");
+        }       
+
+       ctx.restore();
+        //Clear 
+
+    }   
+        
+    function animate(myRobot, canvas, ctx, startTime) {
+          // update
+          var time = (new Date()).getTime() - startTime;
+          // pixels / second
+          var linearSpeed = 0.5;
+          x1=140;y1=90; //Checkpoint 1
+
+           //Etape 1 : S'arrête sur la pastille
+          if(myRobot.x <290 && myRobot.y == 90) { //TOP
+             
+             if(myRobot.x ==x1 
+              //||
+              //myRobot.x==190 
+              //|| 
+              //myRobot.x==240
+              && myRobot.y ==y1) {
+
+                //Etape 2 : Tourner/Analyser
+                //setInterval(collect,50);
+                 
+
+               /* function rotate() {
+                //canvas.width=100;
+                //canvas.height=100;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Move registration point to the center of the canvas
+                ctx.translate(100, 100);
+                
+                // Rotate 1 degree
+                ctx.rotate(Math.PI / 180);
+                  
+                // Move registration point back to the top left corner of canvas
+                ctx.translate(-100, -100);
+                
+                ctx.fillStyle = "red";
+                ctx.fillRect(50, 50, 100, 50);
+                ctx.fillRect(50,100, 100, 50);
+              }
+              setInterval(rotate, 50);
+              */
+
+                // Etape 3 : Afficher les points
+                
+                
+                tabt=[0,10,20,30,40,50,60];
+                tabP=[7,12,13,14,10,21,12];
+                drawCloud(tabt,tabP);
+
+
+                //Etape 4 : Afficher la courbe
+                drawLine(tabt,tabP);
+
+                //Etape 5 : Redémarrer/Repeat/Conserver la courbe.
+                    //Relancer l'animation
+
+
+
+                //ctx.beginPath;
+                
+                
+                //drawRobotic(151,90,20,20);
+                
+                animate(myRobot, canvas, ctx, startTime);
+                     
+               }else
+               myRobot.x +=linearSpeed;
+          }
+          /*else if(myRobot.x ==290 && myRobot.y <115) { //RIGHT
+              myRobot.y +=linearSpeed;
+          }else if(myRobot.x >45 && myRobot.y ==115) { //BOTTOM
+            myRobot.x -=linearSpeed;
+          }else if(myRobot.x ==45 && myRobot.y >=45) {LEFT
+            myRobot.y -=linearSpeed;
+          }
+          else if(myRobot.x==250 && myRobot.y<=50) {
+          myRobot.y +=10;
+          drawPath();
+          drawPointsDarret();
+          }*/ 
+          
+          //Dessin supprimé durant l'animation (attention à l'odre)
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          //Dessin à afficher durant l'animation
+          drawRobot(myRobot, ctx);
+          drawPath();
+          drawCheckpoint();
+          
+          //Permet l'Animation
+          requestAnimFrame(function() {
+            animate(myRobot, canvas, ctx, startTime);
+          });
+      }  //Fin fonction animate
+
+    //Initialisation du canvas
+    drawRobot(myRobot, ctx);
+    drawPath();
+    drawCheckpoint();
   
-  </body>
-</html>  
+      // Temps avant début de l'Animation
+	   setTimeout(function() {
+        var startTime = (new Date()).getTime();
+        animate(myRobot, canvas, ctx, startTime);
+        }, 2000);
