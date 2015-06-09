@@ -3,7 +3,7 @@
 */
 
 var pg = require('pg');
-var client = new pg.Client("postgres://WebApp:WebApp@localhost:5433/Nuage");
+var client = new pg.Client("postgres://WebApp:WebApp@localhost:5432/slam");
 var req='SELECT count(id) FROM public."Nuage"';
 client.connect(function(err) {
   if(err) {

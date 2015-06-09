@@ -1,7 +1,8 @@
 var app = require('express')()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server);
-server.listen(80,'localhost');
+server.listen(80,'194.57.110.4');
+//server.listen(3013,'localhost');
 var clients = [];
 var client_id=0;
 var i= 0;
@@ -64,6 +65,7 @@ io.sockets.on('connection', function (socket) {
     InsertDB("postgres://Galileo:galileo@localhost:5432/slam", requete);
     // local slam = Nuage port 5433
     socket.broadcast.emit('message', data); 
+    this.disconnect();
     //socket.disconnect('client'); 
 	});
 
