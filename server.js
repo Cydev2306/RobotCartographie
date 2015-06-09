@@ -41,6 +41,7 @@ io.sockets.on('connection', function (socket) {
 	clients[client_id] = socket;
 	console.log('Un client vient de se connecter :'+socket.id);
 	client_id++;
+
 		socket.on('client',function(data){
 			if(data == 'galileo'){
 				clients[client_id] = socket;
@@ -60,8 +61,10 @@ io.sockets.on('connection', function (socket) {
     * Ajout des points dans la base de donnees -> appel à la fonction 
     */
     var requete = 'Insert into public."Nuage"("PosX","PosY","Xi","Yi") Values('+data.PosRobotX+','+data.PosRobotY+','+data.Xi+','+data.Yi+');';
-    InsertDB("postgres://Galileo:galileo@localhost:5433/Nuage", requete);
-    socket.broadcast.emit('message', data);  
+    InsertDB("postgres://Galileo:galileo@localhost:5432/slam", requete);
+    // local slam = Nuage port 5433
+    socket.broadcast.emit('message', data); 
+    //socket.disconnect('client'); 
 	});
 
   /*

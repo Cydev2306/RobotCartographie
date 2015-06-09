@@ -1,6 +1,8 @@
 var clientio  = require('socket.io-client');
 var client    = clientio.connect('http://194.57.110.4:80');
-var myArgs = process.argv.slice(3);
+// localhost:3013
+var myArgs = process.argv.slice(2);
+
 client.on('identifiant',function(data){
         console.log('Vous avez cet identifiant : '+ data);
 });
@@ -26,11 +28,11 @@ function Envoi(){
 
     }
 Envoi();
+//client.io.close();//
+//disconnect();
+//setTimeout(process.exit(0),100000);
+
 /*    setInterval(function(){
             Envoi();
     } , 10000);
 */
-//Client.emit('disconnect');
-    // quit
-    //disconnect
-
