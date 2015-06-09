@@ -1,7 +1,7 @@
 var app = require('express')()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server);
-server.listen(3013,'localhost');
+server.listen(80,'localhost');
 var clients = [];
 var client_id=0;
 var i= 0;
