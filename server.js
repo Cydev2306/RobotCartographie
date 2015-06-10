@@ -30,10 +30,31 @@ client.connect(function(err) {
 
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
+
+app.get('/animation.css', function (req, res) {
+  res.sendFile(__dirname + '/public/css/animation.css');
+});
+
+app.get('/canvas.js', function (req, res) {
+  res.sendFile(__dirname + '/public/js/canvas.js');
+});
+
+app.get('/interpolation.js', function (req, res) {
+  res.sendFile(__dirname + '/public/js/interpolation.js');
+});
+
 app.get('/Slam_robot.png', function (req, res) {
-  res.sendFile(__dirname + '/Slam_robot.png');
+  res.sendFile(__dirname + '/public/Slam_robot.png');
+});
+
+app.get('/ClientBD.js', function (req, res) {
+  res.sendFile(__dirname + '/ClientBD.js');
+});
+
+app.get('/AllBD.js', function (req, res) {
+  res.sendFile(__dirname + '/AllBD.js');
 });
 
 
