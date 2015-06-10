@@ -15,16 +15,17 @@ function Envoi(){
             //xi=Math.floor(Math.random()*11), yi =Math.floor(Math.random()*11);
             //  "numeroPoint":i
     angle = myArgs[2];
-    console.log(angle);
     distance = myArgs[3];
     // changer angle / distance par des coordonnées
-    xi=distance*Math.cos(angle);
-    yi=distance*Math.sin(angle);
+    distanceX=distance*Math.cos(angle).toFixed(2);
+    distanceY=distance*Math.sin(angle).toFixed(2);
+    xi = parseFloat(x) + distanceX;
+    yi = parseFloat(y) + distanceY;
     var emit = {
         "PosRobotX": x,
         "PosRobotY": y,
-        "Xi": xi.toFixed(2),
-        "Yi": yi.toFixed(2)
+        "Xi": xi,
+        "Yi": yi
     }
     client.emit('myevent', emit);
     console.log('galileo data send');
