@@ -27,7 +27,9 @@ client.connect(function(err) {
   });
 });
 }
-
+/*
+* configuration des PATHs pour l'app Web
+*/
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
