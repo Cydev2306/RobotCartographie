@@ -61,6 +61,9 @@ app.get('/AllBD.js', function (req, res) {
 io.sockets.on('connection', function (socket) {
 	socket.client_id = client_id;
 	clients[client_id] = socket;
+  /*  
+  *   Affichage de l'id du client une fois connecté (coté serveur)
+  */
 	console.log('Un client vient de se connecter :'+socket.id);
 	client_id++;
 
