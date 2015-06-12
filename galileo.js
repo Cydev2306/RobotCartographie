@@ -1,12 +1,19 @@
+// Ajout des modules nécessaires pour la connection en socket
 var clientio  = require('socket.io-client');
 var client    = clientio.connect('http://194.57.110.4:80',{'reconnect':false});
 // localhost:3013
 var myArgs = process.argv.slice(2);
 client.emit('client', 'galileo');
+/*  Affichage de l'id du client une fois connecté au serveur
+ *
+ */
 client.on('identifiant',function(data){
         console.log('Vous avez cet identifiant : '+ data);
 });
-
+/*  Fonction qui permet :
+ *      - la conversion de coordonnées polaires en coordonnées cartésiennes
+ *      - Envoi des données grâce à la WS 
+*/
 function Envoi(){
     x = myArgs[0];
     y = myArgs[1];
@@ -31,10 +38,7 @@ function Envoi(){
     console.log('galileo data send');
 }
 Envoi();
+
+// Deconnection de la WebSocket pour pouvoir stopper le script une fois qu'il a fini l'envoir de données
 client.on('disconnect',function(data){});
 //setTimeout(process.exit(0),100000);
-
-/*    setInterval(function(){
-            Envoi();
-    } , 10000);
-*/
