@@ -53,8 +53,8 @@ app.get('/ClientBD.js', function (req, res) {
   res.sendFile(__dirname + '/ClientBD.js');
 });
 
-app.get('/AllBD.js', function (req, res) {
-  res.sendFile(__dirname + '/AllBD.js');
+app.get('/resetBD.js', function (req, res) {
+  res.sendFile(__dirname + '/resetBD.js');
 });
 
 
