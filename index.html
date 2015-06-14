@@ -37,6 +37,7 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
 
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="./Slam_robot.png" />
 
@@ -45,6 +46,7 @@
     
     <script>
     var socket = io.connect('http://localhost:3013');
+    // 194.57.110.4:80
     //Quand on reçoit un message, on l'insère dans la page
     var id = 1;
     var X=[];
@@ -57,7 +59,7 @@
         cell1.innerHTML = id;
         id++;
         var cell2 = row.insertCell(1);
-        cell2.innerHTML = "( "+data.PosRobotX+" ; "+data.PosRobotY+" )"; 
+        cell2.innerHTML = "( "+data.PosX+" ; "+data.PosY+" )"; 
         var cell3 = row.insertCell(2);
         cell3.innerHTML = "( "+data.Xi+" ; "+data.Yi+" )"; 
         X[i]=data.Xi;
@@ -78,15 +80,18 @@
         
       };
     function Start(){
-        socket.on('message', function(data) {
+        socket.emit('NewCli','connecte');
+        insereLog('connecté'); 
+        socket.on('points', function(data) {
+          console.log(data);
         insereMessage(data)
         });
-        insereLog('connecté'); 
-        startCanvas();
-        
-
+        startCanvas();   
+        socket.on('message', function(data) {
+          console.log(data);
+        insereMessage(data)
+        });
     }
-    
     function Stop(){
       if(socket){
              socket.disconnect(); 
