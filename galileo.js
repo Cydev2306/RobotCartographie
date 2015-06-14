@@ -29,8 +29,8 @@ function Envoi(){
     xi = parseFloat(x) + distanceX;
     yi = parseFloat(y) + distanceY;
     var emit = {
-        "PosRobotX": x,
-        "PosRobotY": y,
+        "PosX": x,
+        "PosY": y,
         "Xi": xi,
         "Yi": yi
     }
