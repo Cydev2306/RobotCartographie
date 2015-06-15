@@ -83,14 +83,13 @@
         socket.emit('NewCli','connecte');
         insereLog('connecté'); 
         socket.on('points', function(data) {
-          console.log(data);
         insereMessage(data)
-        });
-        startCanvas();   
+        }); 
         socket.on('message', function(data) {
           console.log(data);
         insereMessage(data)
         });
+        startCanvas();  
     }
     function Stop(){
       if(socket){

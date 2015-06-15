@@ -32,23 +32,23 @@ client.connect(function(err) {
 */
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/animation.css', function (req, res) {
-  res.sendFile(__dirname + '/public/css/animation.css');
+  res.sendFile(__dirname + '/animation.css');
 });
 
 app.get('/canvas.js', function (req, res) {
-  res.sendFile(__dirname + '/public/js/canvas.js');
+  res.sendFile(__dirname + '/canvas.js');
 });
 
 app.get('/interpolation.js', function (req, res) {
-  res.sendFile(__dirname + '/public/js/interpolation.js');
+  res.sendFile(__dirname + '/interpolation.js');
 });
 
 app.get('/Slam_robot.png', function (req, res) {
-  res.sendFile(__dirname + '/public/Slam_robot.png');
+  res.sendFile(__dirname + '/Slam_robot.png');
 });
 
 app.get('/ClientBD.js', function (req, res) {
@@ -77,24 +77,46 @@ io.sockets.on('connection', function (socket) {
 				client_id++;
 			}else client_id++;
 		});
-
+    /*
+    * Si l'event newCli ( du bouton start) est levé -> Cherche les pts dans la BD et les envoie.
+    */
+    socket.on('NewCli',function(data){
+      console.log('demande des points stockés dans la DB');
+      var client = new pg.Client("postgres://WebApp:WebApp@localhost:5432/slam");
+var req='SELECT * FROM public."Nuage"';
+client.connect(function(err) {
+  if(err) {
+    return console.error('could not connect to postgres', err);
+  }
+  client.query(req, function(err, result) {
+    if(err) {
+      return console.error('error running query', err);
+    }
+    i=0;
+    while(result.rows[i]){
+    socket.emit('points',result.rows[i]);
+  i++;
+}
+    client.end();
+  });
+});
+    });
 	/*
 	* Envoie un message a tous les clients connectes 
 	*/
-
+  //socket.broadcast.emit('message', data);
   socket.on('myevent', function (data) {
    	console.log('server data', data);
     /*
     * Ajout des points dans la base de donnees -> appel à la fonction 
     */
-    var requete = 'Insert into public."Nuage"("PosX","PosY","Xi","Yi") Values('+data.PosRobotX+','+data.PosRobotY+','+data.Xi+','+data.Yi+');';
+    var requete = "Insert into public.\"Nuage\"(\"PosX\",\"PosY\",\"Xi\",\"Yi\") Values("+data.PosX+","+data.PosY+","+data.Xi+","+data.Yi+");";
     InsertDB("postgres://Galileo:galileo@localhost:5432/slam", requete);
     // local slam = Nuage port 5433
     socket.broadcast.emit('message', data); 
     this.disconnect();
     //socket.disconnect('client'); 
 	});
-
   /*
   * Script qui log la deconnection d'un client.
   */

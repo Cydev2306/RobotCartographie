@@ -8,3 +8,5 @@ TESTS/mon_dump.sql
 MongoTest.js
 
 MongoTest.js
+
+TESTS/sql.js
