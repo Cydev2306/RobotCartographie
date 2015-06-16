@@ -391,7 +391,7 @@ Y4=[13,9,18,15,7,12,13,14,10,21,12,3,9,11,7,9,5];
                     console.log(myRobot.x1);
                     console.log(myRobot.y1);
 
-                }else if(myRobot.x1==30 && myRobot.y1==345.5){
+                }/*else if(myRobot.x1==30 && myRobot.y1==345.5){
                  /* function diagonale(myRobot) {
                     dx = -0.005; 
                     dy = +0.003;
@@ -421,8 +421,8 @@ Y4=[13,9,18,15,7,12,13,14,10,21,12,3,9,11,7,9,5];
                   setTimeout(diagonale, 100);
                }
                 diagonale();
-                */
-                }else if((myRobot.x2<=189 && myRobot.x2>=90 && myRobot.y2==410)  ||
+                
+                }*/else if((myRobot.x2<=189 && myRobot.x2>=90 && myRobot.y2==410)  ||
                          (myRobot.x2<=290 && myRobot.x2>=191 && myRobot.y2==410) ){ //BOTTOM
                  
                   myRobot.x2 +=linearSpeed;
