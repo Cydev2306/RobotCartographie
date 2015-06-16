@@ -16,20 +16,53 @@ var ctx = c.getContext("2d");
         x4: 290,
         y4: 90,
 
+        x:[30,90,350,290],
+        y:[145,410,345,90],
+
         width: 20,
         height: 20,
         borderWidth: 1
     
-    };
+    }; 
+
+   
+    
+ X1=[13,9,18,15,7,12,13,14,10,21,12,3,9,11,7,9,5];
+    Y1=[-200,-175,-150,-125,-100,-75,-50,-25,0,25,50,75,100,125,150,175,200];
+    
+    X2=[-200,-175,-150,-125,-100,-75,-50,-25,0,25,50,75,100,125,150,175,200];
+    Y2=[13,9,18,15,7,12,13,14,10,21,12,3,9,11,7,9,5];
+    
+    
+    X3=[13,9,18,15,7,12,13,14,10,21,12,3,9,11,7,9,5]; 
+    Y3=[-200,-175,-150,-125,-100,-75,-50,-25,0,25,50,75,100,125,150,175,200];
+
+X4=[-200,-175,-150,-125,-100,-75,-50,-25,0,25,50,75,100,125,150,175,200];
+Y4=[13,9,18,15,7,12,13,14,10,21,12,3,9,11,7,9,5];
+
+    
+
+
     
     function drawRobot(myRobot, ctx) {
           
           ctx.beginPath();
 
+          //ctx.rect(myRobot.xi, myRobot.yi, myRobot.width, myRobot.height);
+          
+
+          //if(){
           ctx.rect(myRobot.x1, myRobot.y1, myRobot.width, myRobot.height);
+         //}
+         //else if(){
           ctx.rect(myRobot.x2, myRobot.y2, myRobot.width, myRobot.height);
+        //}else if(){
           ctx.rect(myRobot.x3, myRobot.y3, myRobot.width, myRobot.height);
+        //}else if(){
           ctx.rect(myRobot.x4, myRobot.y4, myRobot.width, myRobot.height);
+        //}
+          
+          
 
           ctx.fillStyle = '#8ED6FF';
           
@@ -40,7 +73,7 @@ var ctx = c.getContext("2d");
           ctx.stroke();
     }
 
-    function drawRobotic(x,y,w,h) {
+    /*function drawRobotic(x,y,w,h) {
           
           ctx.beginPath();
 
@@ -53,7 +86,7 @@ var ctx = c.getContext("2d");
           ctx.lineWidth = myRobot.borderWidth;
           ctx.strokeStyle = 'silver';
           ctx.stroke();
-    }
+    }*/
 
     function drawPath() { 
     //Angles arrondis
@@ -103,6 +136,7 @@ var ctx = c.getContext("2d");
     }
     
     function drawCheckpoint(){
+    
     //TOP 
     ctx.strokeStyle = "rgb(50,255,50)";
     /*ctx.beginPath();ctx.arc(150,100,1,1,Math.PI*2,true);ctx.stroke();*/
@@ -136,10 +170,10 @@ var ctx = c.getContext("2d");
     //ctx.arc(42,260,1,1,Math.PI*2,true);
     ctx.rect(40,255,2,2);  
     ctx.stroke();
-    /*ctx.beginPath();ctx.arc(42,310,1,1,Math.PI*2,true);ctx.stroke();*/}
+    /*ctx.beginPath();ctx.arc(42,310,1,1,Math.PI*2,true);ctx.stroke();*/
     
-    //var image = new Image(); 
-    //image.src = '/img/car.png';
+    }
+    
     
     /*
     image.onload = function() {
@@ -158,7 +192,8 @@ var ctx = c.getContext("2d");
     */
     
     function drawPoint(x,y){//x et y de la bdd
-     console.log("point");
+      
+      //console.log("point");
       ctx.beginPath();
       ctx.strokeStyle = "green";
       ctx.arc(x,y,1,1,Math.PI*1,true);
@@ -168,8 +203,8 @@ var ctx = c.getContext("2d");
     }
 
 
-    function drawCloud(X,Y){// xscale/yscale,position abscisse/ordonnée du robot
-        
+    function drawCloud(X,Y,ox,oy){// xscale/yscale,position abscisse/ordonnée du robot
+        //Simulation de points aléatoires
        /*for(i=0;i<=5;i++) {
         signe=Math.round(Math.random()) * 2 - 1;
         r=Math.random()*5;      // décalage   
@@ -179,10 +214,10 @@ var ctx = c.getContext("2d");
         ctx.fillRect(px,py,2,2);  //position,taille
         
         }*/
-
+        //console.log("cloud");
         //Affiche le nuage à partir des coordonnées récupérés de la bdd pour une position donnée
-   ctx.save();
-        ctx.translate ( 190 ,  50 ); 
+        ctx.save();
+        ctx.translate ( ox, oy ); 
         for(i=0;i<=X.length;i++){
           drawPoint(X[i],Y[i]);
         }
@@ -190,11 +225,11 @@ var ctx = c.getContext("2d");
     }
 
     
-    function drawLine(x,y)
+    function drawLine(x,y,ox,oy)
   {
-     console.log("line");
+      //console.log("line");
       ctx.save();
-      ctx.translate ( 190 ,  50 );
+      ctx.translate (ox,oy);
       ctx.beginPath();
       
       for(i=0;i<=x.length;i++){
@@ -215,8 +250,9 @@ var ctx = c.getContext("2d");
             window.setTimeout(callback, 1000 / 60);
           };
         })();
-  
-  function collect(x,y){ //origine de la rotation
+    
+
+    function collect(x,y){ //origine de la rotation
         console.log("Collecte de donnees veullez patienter ...");
         
         ctx.save();
@@ -269,11 +305,11 @@ var ctx = c.getContext("2d");
                 
         //xs = 90;
        // ys = 90;
-              xs=50; //xs=50
-                    ys=105; //ys=105
-    
-        
-   function animate(myRobot, canvas, ctx, startTime) {/*,runAnimation*/
+             // xs=30; //xs=50
+              //ys=345; //ys=105
+        //myRobot.x1=30;
+        //myRobot.y1=345;
+    function animate(myRobot, canvas, ctx, startTime,data) {/*,runAnimation*/
         /*var runAnimation = {
         value: false
         };
@@ -283,39 +319,12 @@ var ctx = c.getContext("2d");
           var time = (new Date()).getTime() - startTime;
           // pixels / second
           var linearSpeed = 1.5;
+          
 
-                 function diagonale() {
-                    dx = -0.005; 
-                    dy = +0.003;
-
-                    
-                    console.log(xs);
-        
-                    xe = 50;
-                    ye = 105;  
-
-                  ctx.clearRect(0, 0, 500, 500);
-                  drawPath();
-                  drawCheckpoint();
-                  ctx.fillStyle = 'silver';
-                  ctx.fillRect(xs,ys, 20, 20); 
-
-                  xs+= dx;
-                  //console.log(xs);
-                  ys+= dy;
-                  
-                  while (xs <= xe/*|| xs > startPos[0] ||
-                      ys < endPos[1] || ys > startPos[1] */) {
-                    
-                  
-                      dx = +dx;
-                      dy = +dy;   
-                  }
-                  setTimeout(diagonale, 300);
-               }
+                 
                
+              /*
               
-              /*console.log("bjr");
               function diag() {
                 console.log("coucou");
                     dx = -0.003; 
@@ -354,7 +363,7 @@ var ctx = c.getContext("2d");
                diag();
               */
                  
-              /*  if((myRobot.x1 == 30 && myRobot.y1>=145 && myRobot.y1<=244) ||
+                if((myRobot.x1 == 30 && myRobot.y1>=145 && myRobot.y1<=244) ||
                    (myRobot.x1 == 30 && myRobot.y1>=246 && myRobot.y1<=345) ){ //LEFT
                     //ctx.clearRect(0,0,500,500);
                     //ctx.beginPath();
@@ -365,8 +374,13 @@ var ctx = c.getContext("2d");
                      if (myRobot.x1==30 && myRobot.y1==244) {
                       
                     console.log("checkpoint1");
-                    
-                  
+                    //Etape 3 : Afficher les points
+                    //drawCloud(data.Xi,data.Yi,0,245);
+                    drawCloud(X1,Y1,0,245);
+      
+                    //Etape 4 : Afficher la courbe
+                    drawLine(X1,Y1,0,245);
+                    //drawLine(data.Xi,data.Yi,0,245);
                     setTimeout(function(){
                       myRobot.y1++;
                       //console.log(myRobot.y3);
@@ -374,7 +388,40 @@ var ctx = c.getContext("2d");
                     
 
                     };
+                    console.log(myRobot.x1);
+                    console.log(myRobot.y1);
 
+                }else if(myRobot.x1==30 && myRobot.y1==345.5){
+                 /* function diagonale(myRobot) {
+                    dx = -0.005; 
+                    dy = +0.003;
+
+                    xe = 70;
+                    ye = 360;  
+
+                  //ctx.clearRect(0, 0, 500, 500);
+                  //drawPath();
+                  //drawCheckpoint();
+                  //ctx.fillStyle = 'silver';
+                  ctx.fillRect(myRobot.x1,myRobot.y1, 30, 30); 
+                  console.log("diag");
+                  myRobot.x1+=dx;
+                  //xs+= dx;
+                  //console.log(xs);
+                  myRobot.y1+=dy;
+                  //ys+= dy;
+                  
+                  while (myRobot.x1 <= xe/*|| xs > startPos[0] ||
+                      ys < endPos[1] || ys > startPos[1] *//*) {
+                    
+                  
+                      dx = +dx;
+                      dy = +dy;   
+                  }
+                  setTimeout(diagonale, 100);
+               }
+                diagonale();
+                */
                 }else if((myRobot.x2<=189 && myRobot.x2>=90 && myRobot.y2==410)  ||
                          (myRobot.x2<=290 && myRobot.x2>=191 && myRobot.y2==410) ){ //BOTTOM
                  
@@ -383,7 +430,13 @@ var ctx = c.getContext("2d");
                   //console.log(myRobot.x2);
                      if (myRobot.x2==189 && myRobot.y2==410) {
                       
-                    console.log("checkpoint2");        
+                    console.log("checkpoint2"); 
+                    //Etape 3 : Afficher les points
+                    drawCloud(X2,Y2,190,440);
+                     
+          
+                    //Etape 4 : Afficher la courbe
+                    drawLine(X2,Y2,190,440);       
                   
                     setTimeout(function(){
                       myRobot.x2++;
@@ -399,7 +452,14 @@ var ctx = c.getContext("2d");
                       
                     console.log("checkpoint3");
                     
-                  
+                  //Etape 3 : Afficher les points
+                    drawCloud(X3,Y3,380,245);
+                      
+          
+      
+                    //Etape 4 : Afficher la courbe
+                    drawLine(X3,Y3,380,245);
+
                     setTimeout(function(){
                       myRobot.y3--;
                       //console.log(myRobot.y3);
@@ -409,20 +469,22 @@ var ctx = c.getContext("2d");
                     };   
 
                 }
-                 else*/if( (myRobot.x4<=290 && myRobot.x4>191 && myRobot.y4==90)|| 
+                 else if( (myRobot.x4<=290 && myRobot.x4>191 && myRobot.y4==90)|| 
                           (myRobot.x4<=190 && myRobot.x4>90 && myRobot.y4==90) ) { //TOP
                     myRobot.x4 -=linearSpeed;
                   //console.log(myRobot.x4);
                     if (myRobot.x4==191 && myRobot.y4==90) {
                       //collect(myRobot.x4,myRobot.y4);
                     console.log("checkpoint4");
-                    X=[-100,-75,-50,-25,0,25,50,75,100];
-                    Y=[7,12,13,14,10,21,12,3,9];
-              
-                    drawCloud(X,Y);
+                    
+                    
+                    //Etape 3 : Afficher les points
+                    drawCloud(X4,Y4,190,60);
       
                     //Etape 4 : Afficher la courbe
-                    drawLine(X,Y);
+                    drawLine(X4,Y4,190,60);
+
+
                     setTimeout(function(){
                       myRobot.x4--;
                       //console.log(myRobot.x4);
@@ -432,15 +494,15 @@ var ctx = c.getContext("2d");
                     };   
    
                 }
-                /*else if(myRobot.x4==90 && myRobot.y4==90){
+                else if(myRobot.x4==90 && myRobot.y4==90){
                   //console.log("diag");
                   //setTimeout(function(){
-                    diagonale();
+                    //diagonale();
                   //},2000);
                   
                 
                 }
-                */
+                
 
 
           //Dessin supprimé durant l'animation (attention à l'odre)
@@ -452,13 +514,24 @@ var ctx = c.getContext("2d");
           drawPath();
           drawCheckpoint();
           drawRobot(myRobot, ctx); 
-          drawCloud(X,Y);
-          drawLine(X,Y);
+          
+
+          drawCloud(X1,Y1,0,245);
+          //drawCloud(data.Xi,data.Yi,0,245);
+          drawCloud(X2,Y2,190,440);
+          drawCloud(X3,Y3,380,245);
+          drawCloud(X4,Y4,190,60);
+
+          drawLine(X1,Y1,0,245);
+          //drawLine(data.Xi,data.Yi,0,245);
+          drawLine(X2,Y2,190,440);
+          drawLine(X3,Y3,380,245);
+          drawLine(X4,Y4,190,60);
           
 
           //Permet l'Animation
            requestAnimFrame(function() {
-            animate(myRobot, canvas, ctx, startTime);/*,runAnimation*/
+            animate(myRobot, canvas, ctx, startTime,data);/*,runAnimation*/
           });
           
       }  //Fin fonction animate
